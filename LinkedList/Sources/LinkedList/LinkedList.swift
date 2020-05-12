@@ -17,28 +17,39 @@ public class Node<T> {
 		return self.next
 	}
 	
-	public func setNext(node: Node) {
+	public func setNext(_ node: Node) {
 		self.next = node
 	}
 }
 
 public class LinkedList<T> {
 	public var head: Node<T>?
+	public var tail: Node<T>?
 	
 	public init() {
 		self.head = nil
+		self.tail = nil
 	}
 	
 	public func addToEnd(value: T) {
 		let newNode = Node(value)
-		if self.head == nil {
+		if self.head == nil && self.tail == nil {
 			self.head = newNode
+			self.tail = newNode
 		} else {
-			var current = self.head
-			while current?.getNext() != nil {
-				current = current?.getNext()
-			}
-			current?.setNext(node: newNode)
+			self.tail?.setNext(newNode)
+			self.tail = newNode
+		}
+	}
+	
+	public func addToHead(_ value: T) {
+		let newNode = Node(value)
+		if self.head == nil && self.tail == nil {
+			self.head = newNode
+			self.tail = newNode
+		} else {
+			newNode.setNext(self.head!)
+			self.head = newNode
 		}
 	}
 	
@@ -63,6 +74,7 @@ public class LinkedList<T> {
 				current = current?.getNext()
 			}
 			if previous != nil {
+				self.tail = previous
 				previous?.next = nil
 			} else {
 				self.head = nil
